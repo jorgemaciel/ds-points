@@ -1,9 +1,7 @@
 WITH tb_rfv AS (
     SELECT idCustomer,
         CAST(
-            min(
-                julianday('{date}') - julianday(dtTransaction)
-            ) AS INTEGER
+            min(julianday('{date}') - julianday(dtTransaction)) AS INTEGER
         ) + 1 AS recenciaDias,
         COUNT(DISTINCT DATE(dtTransaction)) AS frequenciaDias,
         SUM(
@@ -27,7 +25,8 @@ tb_idade AS (
         LEFT JOIN transactions AS t2 ON t1.idCustomer = t2.idCustomer
     GROUP BY t2.idCustomer
 )
-SELECT t1.*,
+SELECT '{date}' AS dtRef,
+    t1.*,
     t2.idadeBaseDias,
     t3.flEmail
 FROM tb_rfv AS t1
