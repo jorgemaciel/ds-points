@@ -1,0 +1,5 @@
+pandas
+argparse
+sqlalchemy
+tqdm
+
