@@ -2,12 +2,18 @@
 import pandas as pd
 import sqlalchemy
 from sqlalchemy import exc
+import mlflow
+import mlflow.sklearn
+import json
 
-model_series = pd.read_pickle('../../models/rf_fim_curso.pkl')
+mlflow.set_tracking_uri('http://127.0.0.1:8080')
+model = mlflow.sklearn.load_model('models:/Churn/production')
 
 # %%
-model_series
-
+model_info = mlflow.models.get_model_info('models:/Churn/production')
+features = [i['name'] for i in json.loads(model_info.signature_dict['inputs'])]
+features
+# %%
 engine = sqlalchemy.create_engine('sqlite:///../../data/feature_store.db')
 
 with open('etl.sql', 'r') as open_file:
@@ -17,7 +23,7 @@ df = pd.read_sql(query, engine)
 df
 
 # %%
-pred = model_series['model'].predict_proba(df[model_series['features']])
+pred = model.predict_proba(df[features])
 proba_churn = pred[:,1]
 
 df_predict = df[['dtRef', 'idCustomer']].copy()
