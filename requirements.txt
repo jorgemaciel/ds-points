@@ -4,3 +4,4 @@ sqlalchemy
 tqdm
 scikit-learn
 feature-engine
+mlflow
