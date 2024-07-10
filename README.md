@@ -11,4 +11,5 @@ Assim, pensamos em construir um projeto de Data Science que aborde todas as etap
 - Construção da variável resposta;
 - Construção da ABT (*Analytical Base Table*);
 - Treinamento de modelos preditivos;
+- Integração com MLflow
 - Deploy;
